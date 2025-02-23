@@ -6,6 +6,8 @@ Created as a school project in a team, backend was mosty created by other team m
 
 See `/preview` folder for app demonstration photos.
 
+[![Watch demo video](./preview/album-with-photos.png)](./preview/demo.mov)
+
 ## Tech stack
 
 - React
