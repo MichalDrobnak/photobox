@@ -1,0 +1,12 @@
+django==3.2
+djangorestframework
+markdown
+django-filter
+django-rest-swagger
+pycryptodome==3.14.1
+dynamic-rest
+pyyaml
+uwsgi
+psycopg2-binary
+django-cors-headers
+Pillow

@@ -1,0 +1,67 @@
+version: "3.7"
+services:
+  database:
+    hostname: database
+    image: postgres:alpine3.15
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: "${DB_PASSWORD}"
+      POSTGRES_DB: "${DB_DBNAME}"
+      POSTGRES_USER: "${DB_USERNAME}"
+    volumes:
+      - database-storage:/var/lib/postgresql/data/
+  admin:
+    hostname: admin
+    image: adminer:4.8.1
+    restart: always
+    links:
+      - database:database
+    environment:
+      ADMINER_DEFAULT_SERVER: database
+    ports:
+      - 127.0.0.1:8080:8080
+
+  web:
+    hostname: web
+    restart: always
+    build:
+      context: .
+      dockerfile: nginx.docker
+    links:
+      - photoalbum:django
+    volumes:
+      - type: bind
+        source: ./photoalbum/frontend/dist
+        target: /usr/share/nginx/html
+      - type: bind
+        source: ./static
+        target: /usr/share/nginx/static
+      - type: bind
+        source: ./media
+        target: /usr/share/nginx/media
+    ports:
+      - 80:80
+
+  photoalbum:
+    container_name: photoalbum
+    hostname: "photoalbum"
+    restart: always
+    build:
+      context: .
+    links:
+      - database:database
+    environment:
+      DB_PASSWORD: "${DB_PASSWORD}"
+      DB_DBNAME: "${DB_DBNAME}"
+      DB_USERNAME: "${DB_USERNAME}"
+      DB_HOST: "database"
+      ENV: "${ENV}"
+      APP: "photoalbum"
+    volumes:
+      - .:/var/django/repo
+    ports:
+      - 8000:8000
+
+volumes:
+  database-storage:
+  uwsgi-sockets:

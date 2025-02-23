@@ -1,0 +1,57 @@
+@startuml photoalbum
+  entity User {
+    id: uuid
+    ---
+    username: string
+    password_hash: string
+    full_name: string
+    date_of_birth: string
+    created_at: timestamp
+    updated_at: timestamp
+  }
+
+  entity Album {
+    id: uuid
+    ---
+    public: boolean
+    slug: string
+    name: string
+    created_at: timestamp
+    updated_at: timestamp
+  }
+
+  entity Category {
+    id: uuid
+    ---
+    slug: string
+    name: string
+    created_at: timestamp
+    use_count()
+  }
+
+  entity Photo {
+    id: uuid
+    ---
+    caption: string
+    url: string;
+    created_at: timestamp
+    updated_at: timestamp
+  }
+
+  entity UserAlbum {
+    id: uuid
+    ---
+    liked: boolean
+    created_at: timestamp
+    updated_at: timestamp
+  }
+
+  User ||--o{ Album : Owner
+  User ||--o{ UserAlbum : User
+  UserAlbum }o--|| Album : User
+  Album }o--o{ Category
+  Photo }o--o{ Category
+  Photo }o--|{ Album
+  User ||--o{ Photo : Owner
+  User }o--o{ Photo : Liked
+@enduml

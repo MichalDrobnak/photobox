@@ -1,0 +1,63 @@
+	
+@startuml Photoalbum
+left to right direction
+actor Guest as guest
+actor User as user
+actor PhotoOwner as powner
+actor AlbumOwner as aowner
+
+package Photoalbum {
+  usecase "Log in" as UC1
+  usecase "Register" as UC2
+  usecase "Confirm age" as UC3
+  usecase "Upload photo" as UC4
+  usecase "Delete photo" as UC5
+  usecase "Add photo to album" as UC6
+  usecase "Remove photo from album" as UC7
+  usecase "View photo" as UC8
+  usecase "View album" as UC9
+  usecase "Create category" as UC10
+  usecase "Update album" as UC11
+  usecase "Filter albums by owner or category" as UC12
+  usecase "Upload photo" as UC13
+  usecase "Set user permissions for album" as UC14
+  usecase "Log out" as UC15
+  usecase "Like album" as UC16
+  usecase "Like photo" as UC17
+  usecase "Update photo" as UC18
+  usecase "Update own user settings" as UC19
+  usecase "Delete album" as UC20
+  usecase "Check user permissions" as UC21
+}
+
+user <|-- powner
+user <|-- aowner
+
+
+UC21 <.. UC6 : <<include>>
+UC21 <.. UC7 : <<include>>
+UC21 <.. UC8 : <<include>>
+UC21 <.. UC9 : <<include>>
+
+guest --> UC1
+guest --> UC2
+user --> UC3
+user --> UC4
+powner --> UC5
+user --> UC6
+user --> UC7
+user --> UC8
+user --> UC9
+user --> UC10
+aowner --> UC11
+user --> UC12
+user --> UC13
+aowner --> UC14
+user --> UC15
+user --> UC16
+user --> UC17
+powner --> UC18
+user --> UC19
+aowner --> UC20
+
+@enduml

@@ -1,0 +1,28 @@
+stages:
+    - deploy
+
+.deploy_common:
+  stage: deploy
+  tags:
+    - shared-fi
+  script:
+   - "apk add ansible sshpass"
+   - "apk add ansible --update openssh"
+   - "ansible-galaxy collection install community.docker"
+   - "ansible-playbook -v -i inventory.yaml deploy.yaml"
+
+deploy-main:
+  extends: .deploy_common
+  only:
+    refs:
+     - main
+
+deploy-manual:
+  extends: .deploy_common
+  when: manual
+
+deploy-and-reset:
+  extends: .deploy_common
+  variables:
+    RESET: "True"
+  when: manual

@@ -1,0 +1,14 @@
+all:
+  hosts:
+    debian01.stratus:
+      ansible_user: pb138
+      ansible_password: "{{ lookup('env', 'ANSIBLE_PASSWORD') }}"
+      ansible_become_password: "{{ lookup('env', 'ANSIBLE_PASSWORD') }}"
+      ansible_host: "172.26.2.234"
+  children:
+    stratus:
+      hosts:
+        debian01.stratus:
+    deploy:
+      hosts:
+        debian01.stratus:
